@@ -14,14 +14,14 @@ import Sentiment from "../components/Sentiment";
 import TrendingStocks from "../components/TrendingStocks";
 import Footer from "../components/Footer";
 import BottomNav from "../components/BottomNav";
-import { useAuth } from "./providers";
+import { useAuth, useTheme } from "./providers";
 import { loadWatchlist, saveWatchlist } from "../lib/watchlistStore";
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
   const [watchlist, setWatchlist] = useState([]);
   const [watchlistReady, setWatchlistReady] = useState(false);
   const { user } = useAuth();
+  const { darkMode, setDarkMode } = useTheme();
   const userId = user?.id || "guest";
 
   useEffect(() => {

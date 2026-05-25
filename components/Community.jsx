@@ -1,24 +1,11 @@
 import { useEffect, useState } from "react";
 import { UserRound } from "lucide-react";
 import { useAuth } from "../app/providers";
-import { posts } from "../data/market";
 import CommunityBoard from "./CommunityBoard";
 import SectionTitle from "./SectionTitle";
 
 const commonCategories = ["자유게시판", "실시간 수다", "환율/매크로"];
-
-const defaultCommonPosts = posts.map((post, index) => ({
-  id: `common-seed-${index}`,
-  title: post.title,
-  content: "주말 시장 흐름을 같이 보면서 월요일 전략을 정리해보는 글입니다.",
-  category: commonCategories.includes(post.board) ? post.board : commonCategories[index % commonCategories.length],
-  likes: post.likes,
-  liked: false,
-  author: index % 2 === 0 ? "반도체러" : "월요일대기중",
-  comments: [],
-  createdAt: Date.now() - (index + 1) * 1000 * 60 * 4,
-  updatedAt: null
-}));
+const emptyDefaultPosts = [];
 
 export default function Community() {
   const { user } = useAuth();
@@ -50,8 +37,8 @@ export default function Community() {
       <CommunityBoard
         boardId="common"
         categories={commonCategories}
-        defaultPosts={defaultCommonPosts}
-        emptyText="아직 공통 커뮤니티에 글이 없습니다. 첫 이야기를 남겨보세요."
+        defaultPosts={emptyDefaultPosts}
+        emptyText="아직 작성된 글이 없습니다. 첫 이야기를 남겨보세요."
       />
     </section>
   );

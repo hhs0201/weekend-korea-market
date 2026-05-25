@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
 
 const AuthContext = createContext(null);
+const ThemeContext = createContext(null);
 
 const LOCAL_USER_KEY = "weekend-korea-market-local-user-v1";
 
@@ -26,6 +27,17 @@ export function Providers({ children }) {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authMessage, setAuthMessage] = useState("");
+  const [darkMode, setDarkModeState] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("weekend-korea-market-theme");
+    setDarkModeState(savedTheme === "dark");
+  }, []);
+
+  const setDarkMode = (nextValue) => {
+    setDarkModeState(nextValue);
+    window.localStorage.setItem("weekend-korea-market-theme", nextValue ? "dark" : "light");
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -130,11 +142,23 @@ export function Providers({ children }) {
     user
   }), [authMessage, loading, session, user]);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+        {children}
+      </ThemeContext.Provider>
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used inside Providers");
+  return context;
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error("useTheme must be used inside Providers");
   return context;
 }
