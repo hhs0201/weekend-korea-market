@@ -37,19 +37,23 @@ export const news = [
 ];
 
 export const posts = [
-  { board: "월요일 예상", title: "월요일 반도체 갭상 가능성, 여러분은 어떻게 보세요?", likes: 248, comments: 61, time: "2분 전", hot: true },
-  { board: "인기 종목 토론", title: "엔비디아는 흔들렸는데 하이닉스 심리는 아직 살아있는 듯", likes: 192, comments: 44, time: "5분 전", hot: true },
-  { board: "다음주 전략", title: "다음주 현금 비중 30%면 너무 보수적인가요?", likes: 157, comments: 38, time: "9분 전" },
-  { board: "이번주 복기", title: "삼성전자 눌림이면 담아야 할지 같이 봐주세요", likes: 139, comments: 29, time: "14분 전" },
-  { board: "자유 게시판", title: "주말인데 장 열린 것처럼 계속 호가창 찾고 있음", likes: 111, comments: 21, time: "18분 전" },
-  { board: "실시간 커뮤니티", title: "환율 1,520원대면 성장주 진입은 조금 기다려야 할까요?", likes: 96, comments: 18, time: "23분 전" }
+  { board: "실시간 수다", title: "월요일 반도체 갭상 가능성, 여러분은 어떻게 보세요?", likes: 248, comments: 61, time: "2분 전", hot: true },
+  { board: "자유게시판", title: "엔비디아는 흔들렸는데 하이닉스 심리는 아직 살아있는 듯", likes: 192, comments: 44, time: "5분 전", hot: true },
+  { board: "환율/매크로", title: "다음주 현금 비중 30%면 너무 보수적인가요?", likes: 157, comments: 38, time: "9분 전" },
+  { board: "자유게시판", title: "삼성전자 눌림이면 담아야 할지 같이 봐주세요", likes: 139, comments: 29, time: "14분 전" },
+  { board: "실시간 수다", title: "주말인데 장 열린 것처럼 계속 호가창 찾고 있음", likes: 111, comments: 21, time: "18분 전" },
+  { board: "환율/매크로", title: "환율 1,520원대면 성장주 진입은 조금 기다려야 할까요?", likes: 96, comments: 18, time: "23분 전" }
 ];
 
 export const stocks = [
-  { region: "국내", name: "삼성전자", ticker: "005930", price: "294,250원", mentions: "18.4만", score: 96, trend: "down" },
-  { region: "국내", name: "SK하이닉스", ticker: "000660", price: "1,941,000원", mentions: "15.7만", score: 94, trend: "up" },
-  { region: "해외", name: "엔비디아", ticker: "NVDA", price: "$215.33", mentions: "13.2만", score: 91, trend: "down" },
-  { region: "해외", name: "테슬라", ticker: "TSLA", price: "$426.01", mentions: "9.8만", score: 82, trend: "up" },
-  { region: "해외", name: "로켓랩", ticker: "RKLB", price: "$135.76", mentions: "5.2만", score: 78, trend: "up" },
-  { region: "해외", name: "AST 스페이스모바일", ticker: "ASTS", price: "$105.86", mentions: "4.9만", score: 76, trend: "up" }
+  { region: "국내", name: "삼성전자", ticker: "005930", price: "294,250원", change: "-1.75%", mentions: "18.4만", score: 96, trend: "down" },
+  { region: "국내", name: "SK하이닉스", ticker: "000660", price: "1,941,000원", change: "+0.05%", mentions: "15.7만", score: 94, trend: "up" },
+  { region: "해외", name: "엔비디아", ticker: "NVDA", price: "$215.33", change: "-1.90%", mentions: "13.2만", score: 91, trend: "down" },
+  { region: "해외", name: "테슬라", ticker: "TSLA", price: "$426.01", change: "+1.95%", mentions: "9.8만", score: 82, trend: "up" },
+  { region: "해외", name: "로켓랩", ticker: "RKLB", price: "$135.76", change: "+8.20%", mentions: "5.2만", score: 78, trend: "up" },
+  { region: "해외", name: "AST 스페이스모바일", ticker: "ASTS", price: "$105.86", change: "+10.01%", mentions: "4.9만", score: 76, trend: "up" }
 ];
+
+export function getStockByTicker(ticker) {
+  return stocks.find((stock) => stock.ticker.toUpperCase() === ticker.toUpperCase());
+}

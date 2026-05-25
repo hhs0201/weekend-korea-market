@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import SettingsPanel from "../components/SettingsPanel";
 import Header from "../components/Header";
@@ -14,10 +14,25 @@ import Sentiment from "../components/Sentiment";
 import TrendingStocks from "../components/TrendingStocks";
 import Footer from "../components/Footer";
 import BottomNav from "../components/BottomNav";
+import { useAuth } from "./providers";
+import { loadWatchlist, saveWatchlist } from "../lib/watchlistStore";
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [watchlist, setWatchlist] = useState([]);
+  const [watchlistReady, setWatchlistReady] = useState(false);
+  const { user } = useAuth();
+  const userId = user?.id || "guest";
+
+  useEffect(() => {
+    setWatchlistReady(false);
+    setWatchlist(loadWatchlist(userId));
+    setWatchlistReady(true);
+  }, [userId]);
+
+  useEffect(() => {
+    if (watchlistReady) saveWatchlist(userId, watchlist);
+  }, [userId, watchlist, watchlistReady]);
 
   const toggleWatch = (ticker) => {
     setWatchlist((current) => current.includes(ticker) ? current.filter((item) => item !== ticker) : [...current, ticker]);

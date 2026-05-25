@@ -13,6 +13,8 @@ create table public.profiles (
 create table public.community_posts (
   id uuid primary key default gen_random_uuid(),
   author_id uuid references public.profiles(id) on delete set null,
+  board_id text not null default 'common',
+  ticker text,
   title text not null,
   content text not null,
   category text not null,
@@ -44,11 +46,21 @@ create table public.community_comment_likes (
   primary key (comment_id, user_id)
 );
 
+create table public.user_watchlists (
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  ticker text not null,
+  region text,
+  name text,
+  created_at timestamptz not null default now(),
+  primary key (user_id, ticker)
+);
+
 alter table public.profiles enable row level security;
 alter table public.community_posts enable row level security;
 alter table public.community_comments enable row level security;
 alter table public.community_post_likes enable row level security;
 alter table public.community_comment_likes enable row level security;
+alter table public.user_watchlists enable row level security;
 
 create policy "Profiles are readable" on public.profiles for select using (true);
 create policy "Users can update own profile" on public.profiles for update using (auth.uid() = id);
@@ -64,3 +76,4 @@ create policy "Authors can delete comments" on public.community_comments for del
 
 create policy "Users can like posts" on public.community_post_likes for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "Users can like comments" on public.community_comment_likes for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "Users can manage own watchlist" on public.user_watchlists for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
